@@ -1,0 +1,34 @@
+{
+  "name": "react-awesome-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start: server": "node ./bin/www",
+    "db:start": "docker run -d --name redis -p 6379:6379 redis:alpine",
+    "db:stop": "docker rm -f redis",
+    "test:server": "mocha tests --recursive"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^3.0.1",
+    "yeps": "^1.0.0",
+    "yeps-bodyparser": "^1.1.0",
+    "yeps-cors": "^1.0.0",
+    "yeps-error": "^1.2.0",
+    "yeps-helmet": "^1.0.0",
+    "yeps-logger": "^1.0.0",
+    "yeps-redis": "^1.0.0",
+    "yeps-router": "^1.0.0",
+    "yeps-server": "^1.0.0",
+    "yeps-static": "^1.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.5.3",
+    "sinon": "^3.3.0"
+  }
+}
