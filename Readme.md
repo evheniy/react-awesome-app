@@ -10,6 +10,16 @@ Quality tools: eslint, mocha, chai, sinon, enzyme.
     cd react-awesome-app
     npm i
     
+## How to work with docker
+
+To start redis server:
+    
+    npm run db:start
+    
+To stop it:
+
+    npm run db:stop
+    
 ## How to run server
 
     npm run start:server
