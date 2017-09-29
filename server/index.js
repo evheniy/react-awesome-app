@@ -13,27 +13,27 @@ const app = module.exports = new App();
 const router = new Router();
 
 router.get('/data').then(async (ctx) => {
-    const data = await ctx.redis.get('data');
-    ctx.res.end(JSON.stringify(data));
+  const data = await ctx.redis.get('data');
+  ctx.res.end(JSON.stringify(data));
 }).post('/data').then(async (ctx) => {
-    await ctx.redis.set('data', JSON.stringify(ctx.request.body));
-    ctx.res.end(JSON.stringify({
-        message: 'ok'
-    }));
+  await ctx.redis.set('data', JSON.stringify(ctx.request.body));
+  ctx.res.end(JSON.stringify({
+    message: 'ok',
+  }));
 });
 
 const root = resolve(__dirname, '..', 'public');
 
 app.all([
-    error({ isJSON: true }),
-    logger(),
+  error({ isJSON: true }),
+  logger(),
 ]).then(
-    serve({ root })
+  serve({ root }),
 ).all([
-    redis(),
-    bodyParser(),
-    helmet(),
-    cors(),
+  redis(),
+  bodyParser(),
+  helmet(),
+  cors(),
 ]).then(
-    router.resolve()
+  router.resolve(),
 );
