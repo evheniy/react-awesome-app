@@ -1,4 +1,4 @@
-# [React awesome app](Full stack react app from scratch )
+# [React awesome app](https://medium.com/@evheniybystrov/full-stack-react-app-from-scratch-part-1-9086cacc59ac)
 
 Full stack app example with redis, docker, node.js, YEPS, react, redux, rxjs with redux-observable.
 
