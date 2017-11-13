@@ -12,6 +12,8 @@ Quality tools: eslint, mocha, chai, sinon, enzyme.
     
 ## How to work with docker
 
+### Redis
+
 To start redis server:
     
     npm run db:start
@@ -20,11 +22,39 @@ To stop it:
 
     npm run db:stop
     
+### Docker
+
+Build:
+
+    npm run docker:build
+    
+Run ([http://localhost:80](http://localhost:80)):
+
+    npm run docker:run
+
+Stop:
+
+    npm run docker:stop
+    
+## Docker compose
+
+Run ([http://localhost:80](http://localhost:80)):
+
+    npm run compose:up
+    
+Stop:
+
+    npm run compose:down
+
 ## How to run server
 
-    npm run start:server
+Start ([http://localhost:3000](http://localhost:3000)):
+
+    npm run server:start
     
-And open http://localhost:3000
+Stop:
+
+    npm run server:stop
 
 ## How to test
 

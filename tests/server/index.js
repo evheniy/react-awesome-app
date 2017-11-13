@@ -7,8 +7,9 @@ const logger = require('yeps-logger/logger');
 
 const app = require('../../server');
 
-const expect = chai.expect;
 chai.use(chaiHttp);
+
+const { expect } = chai;
 let server;
 
 describe('Server testing', () => {
@@ -21,6 +22,10 @@ describe('Server testing', () => {
 
   afterEach(() => {
     server.close();
+  });
+
+  after(() => {
+    redis.disconnect();
   });
 
   it('should test 404 error', async () => {
