@@ -12,11 +12,11 @@ Quality tools: eslint, mocha, chai, sinon, enzyme.
     
 ## How to run databases with docker
 
-To start redis server:
+Start (redis:6379):
     
     npm run db:start
     
-To stop it:
+Stop:
 
     npm run db:stop
     
