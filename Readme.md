@@ -10,9 +10,7 @@ Quality tools: eslint, mocha, chai, sinon, enzyme.
     cd react-awesome-app
     npm i
     
-## How to work with docker
-
-### Redis
+## How to run databases with docker
 
 To start redis server:
     
@@ -22,7 +20,9 @@ To stop it:
 
     npm run db:stop
     
-## How to run server
+## How to run server 
+
+### Node.js
 
 Start ([http://localhost:3000/](http://localhost:3000/)):
 
@@ -46,7 +46,7 @@ Stop:
 
     npm run docker:stop
     
-## Docker compose
+### Docker Compose
 
 Don't forget to stop db server.
 
@@ -57,12 +57,8 @@ Run ([http://localhost/](http://localhost/)):
 Stop:
 
     npm run compose:down
-
-## How to test
-
-    npm t
     
-## URLs to test
+### URLs to test
 
 | Method | Action     | URL                                              |
 |--------|------------|--------------------------------------------------|
@@ -72,3 +68,7 @@ Stop:
 |  GET   | 500 error  | [http://localhost/error](http://localhost/error) |
 |  GET   | 404 error  | [http://localhost/404](http://localhost/404)     |
 
+
+## How to test
+
+    npm t
