@@ -24,7 +24,7 @@ To stop it:
     
 ## How to run server
 
-Start ([http://localhost:3000](http://localhost:3000)):
+Start ([http://localhost:3000/](http://localhost:3000/)):
 
     npm run server:start
     
@@ -38,7 +38,7 @@ Build:
 
     npm run docker:build
     
-Run ([http://localhost:80](http://localhost:80)):
+Run ([http://localhost/](http://localhost/)):
 
     npm run docker:run
 
@@ -50,7 +50,7 @@ Stop:
 
 Don't forget to stop db server.
 
-Run ([http://localhost:80](http://localhost:80)):
+Run ([http://localhost/](http://localhost/)):
 
     npm run compose:up
     
@@ -62,4 +62,13 @@ Stop:
 
     npm t
     
+## URLs to test
+
+| Method | Action     | URL                                              |
+|--------|------------|--------------------------------------------------|
+|  GET   | Index page | [http://localhost/](http://localhost/)           |
+|  GET   | Get data   | [http://localhost/data](http://localhost/data)   |
+|  POST  | Set data   | [http://localhost/data](http://localhost/data)   |
+|  GET   | 500 error  | [http://localhost/error](http://localhost/error) |
+|  GET   | 404 error  | [http://localhost/404](http://localhost/404)     |
 
