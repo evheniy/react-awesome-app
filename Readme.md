@@ -22,6 +22,16 @@ To stop it:
 
     npm run db:stop
     
+## How to run server
+
+Start ([http://localhost:3000](http://localhost:3000)):
+
+    npm run server:start
+    
+Stop:
+
+    npm run server:stop
+    
 ### Docker
 
 Build:
@@ -38,6 +48,8 @@ Stop:
     
 ## Docker compose
 
+Don't forget to stop db server.
+
 Run ([http://localhost:80](http://localhost:80)):
 
     npm run compose:up
@@ -45,16 +57,6 @@ Run ([http://localhost:80](http://localhost:80)):
 Stop:
 
     npm run compose:down
-
-## How to run server
-
-Start ([http://localhost:3000](http://localhost:3000)):
-
-    npm run server:start
-    
-Stop:
-
-    npm run server:stop
 
 ## How to test
 
