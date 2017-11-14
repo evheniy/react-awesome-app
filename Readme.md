@@ -57,6 +57,10 @@ Run ([http://localhost/](http://localhost/)):
 Stop:
 
     npm run compose:down
+
+Clear:
+
+    npm run compose:clear
     
 ### URLs to test
 
