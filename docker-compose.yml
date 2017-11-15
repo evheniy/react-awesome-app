@@ -1,45 +1,56 @@
-version: '2'
+version: '3'
 services:
   nginx:
     build: ./nginx
     restart: always
     links:
-        - node1:node1
-        - node2:node2
-        - node3:node3
+      - node1:node1
+      - node2:node2
+      - node3:node3
     ports:
-        - "80:80"
+      - "80:80"
 
   redis:
     image: redis:alpine
     restart: always
     ports:
-        - "6379:6379"
+      - "6379:6379"
 
   node1:
     build: .
     restart: always
     links:
-        - "redis:redis"
+      - "redis:redis"
     ports:
-        - "3000"
+      - "3000"
     volumes:
-        - ".:/usr/src/app"
+      - ".:/usr/src/app"
+    environment:
+      - LOGS_FILE_NAME=./logs/node1.error.log
+      - REDIS_HOST=redis
+
   node2:
     build: .
     restart: always
     links:
-        - "redis:redis"
+      - "redis:redis"
     ports:
-        - "3000"
+      - "3000"
     volumes:
-        - ".:/usr/src/app"
+      - ".:/usr/src/app"
+    environment:
+      - LOGS_FILE_NAME=./logs/node2.error.log
+      - REDIS_HOST=redis
+
   node3:
     build: .
     restart: always
     links:
-        - "redis:redis"
+      - "redis:redis"
     ports:
-        - "3000"
+      - "3000"
     volumes:
-        - ".:/usr/src/app"
+      - ".:/usr/src/app"
+    environment:
+      - LOGS_FILE_NAME=./logs/node3.error.log
+      - REDIS_HOST=redis

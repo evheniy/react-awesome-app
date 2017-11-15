@@ -66,7 +66,7 @@ describe('Server testing', () => {
       .send()
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.be.equal('test');
+        expect(res.body.data).to.be.equal('test');
         spy();
       });
 
@@ -91,5 +91,23 @@ describe('Server testing', () => {
     expect(storedData.data).to.be.equal(data);
 
     expect(spy.calledOnce).to.be.true;
+  });
+
+  it('should test error', async () => {
+    await chai.request(server)
+      .post('/error')
+      .send()
+      .catch((err) => {
+        expect(err).to.have.status(500);
+      });
+  });
+
+  it('should test error', async () => {
+    await chai.request(server)
+      .post('/404')
+      .send()
+      .catch((err) => {
+        expect(err).to.have.status(404);
+      });
   });
 });

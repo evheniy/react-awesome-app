@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:alpine
 
 # Create app directory
 RUN mkdir -p /usr/src/app
@@ -15,5 +15,7 @@ EXPOSE 3000
 
 ENV NODE_ENV production
 ENV PORT 3000
+ENV REDIS_HOST redis
+ENV LOGS_FILE_NAME ./logs/yeps.error.log
 
 CMD [ "npm", "run", "nodemon" ]

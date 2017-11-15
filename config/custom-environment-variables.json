@@ -1,0 +1,8 @@
+{
+  "redis": {
+    "host": "REDIS_HOST"
+  },
+  "logger": {
+    "filename": "LOGS_FILE_NAME"
+  }
+}
