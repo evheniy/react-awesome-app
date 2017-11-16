@@ -7,6 +7,10 @@ services:
       - nodes
     ports:
       - "80:80"
+    volumes:
+      - "./certs:/etc/nginx/ssl"
+      - "./logs:/var/logs"
+      - "./public:/var/www"
 
   redis:
     image: redis:alpine
