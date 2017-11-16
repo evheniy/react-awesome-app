@@ -12,7 +12,7 @@
     "docker:build": "docker build -t yeps .",
     "docker:run": "docker run -d -p 80:3000 --name yeps -v $PWD:/usr/src/app --link redis:redis yeps",
     "docker:stop": "docker rm -f yeps",
-    "compose:up": "docker-compose up -d",
+    "compose:up": "docker-compose up -d --build",
     "compose:down": "docker-compose down",
     "compose:clear": "docker-compose down --rmi all",
     "lint": "npm-run-all lint:**",
@@ -25,7 +25,8 @@
     "clear": "npm-run-all clear:**",
     "clear:stop": "docker rm -f $(docker ps -a -q)",
     "clear:rm:images": "docker rmi -f $(docker images -q)",
-    "clear:rm:volumes": "docker volume rm $(docker volume ls -f dangling=true -q)"
+    "clear:rm:volumes": "docker volume rm $(docker volume ls -f dangling=true -q)",
+    "clear:networks": "docker network ls | awk '$3 == \"bridge\" && $2 != \"bridge\" { print $1 }'"
   },
   "keywords": [],
   "author": "Evheniy Bystrov",

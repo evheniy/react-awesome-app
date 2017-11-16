@@ -3,10 +3,8 @@ services:
   nginx:
     build: ./nginx
     restart: always
-    links:
-      - node1:node1
-      - node2:node2
-      - node3:node3
+    networks:
+      - nodes
     ports:
       - "80:80"
 
@@ -14,13 +12,16 @@ services:
     image: redis:alpine
     restart: always
     ports:
-      - "6379:6379"
+      - "6379"
+    networks:
+      - databases
 
   node1:
     build: .
     restart: always
-    links:
-      - "redis:redis"
+    networks:
+      - nodes
+      - databases
     ports:
       - "3000"
     volumes:
@@ -32,8 +33,9 @@ services:
   node2:
     build: .
     restart: always
-    links:
-      - "redis:redis"
+    networks:
+      - nodes
+      - databases
     ports:
       - "3000"
     volumes:
@@ -45,8 +47,9 @@ services:
   node3:
     build: .
     restart: always
-    links:
-      - "redis:redis"
+    networks:
+      - nodes
+      - databases
     ports:
       - "3000"
     volumes:
@@ -54,3 +57,8 @@ services:
     environment:
       - LOGS_FILE_NAME=./logs/node3.error.log
       - REDIS_HOST=redis
+
+networks:
+  nodes:
+
+  databases:
