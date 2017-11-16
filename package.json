@@ -10,7 +10,7 @@
     "db:start": "docker run -d --name redis -p 6379:6379 redis:alpine",
     "db:stop": "docker rm -f redis",
     "docker:build": "docker build -t yeps .",
-    "docker: run": "docker run -d -p 80:3000 --name yeps -v $PWD:/usr/src/app --link redis:redis yeps",
+    "docker:run": "docker run -d -p 80:3000 --name yeps -v $PWD:/usr/src/app --link redis:redis yeps",
     "docker:stop": "docker rm -f yeps",
     "compose:up": "docker-compose up -d",
     "compose:down": "docker-compose down",
@@ -21,7 +21,11 @@
     "test:lint": "npm run lint",
     "test:server": "mocha tests --recursive",
     "test:security": "nsp check",
-    "test:coverage": "istanbul cover _mocha -- tests --recursive"
+    "test:coverage": "istanbul cover _mocha -- tests --recursive",
+    "clear": "npm-run-all clear:**",
+    "clear:stop": "docker rm -f $(docker ps -a -q)",
+    "clear:rm:images": "docker rmi -f $(docker images -q)",
+    "clear:rm:volumes": "docker volume rm $(docker volume ls -f dangling=true -q)"
   },
   "keywords": [],
   "author": "Evheniy Bystrov",
