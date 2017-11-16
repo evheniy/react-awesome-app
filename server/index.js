@@ -27,13 +27,13 @@ const root = resolve(__dirname, '..', 'public');
 app.all([
   error({ isJSON: true }),
   logger(),
-]).then(
-  serve({ root }),
-).all([
+]).all([
   redis(),
   bodyParser(),
   helmet(),
   cors(),
 ]).then(
   router.resolve(),
+).then(
+  serve({ root }),
 );
