@@ -4,5 +4,12 @@
   },
   "logger": {
     "filename": "LOGS_FILE_NAME"
+  },
+  "jwt": {
+    "secret": "JWT_SECRET",
+    "ttl": "JWT_TTL"
+  },
+  "mongoose": {
+    "uri": "MONGO_URI"
   }
 }

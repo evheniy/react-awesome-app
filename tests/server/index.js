@@ -1,9 +1,17 @@
+/* eslint no-underscore-dangle: "off" */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const yeps = require('yeps-server');
 const redis = require('yeps-redis/redis');
 const logger = require('yeps-logger/logger');
+const mongoose = require('mongoose');
+
+const fs = require('fs');
+const { promisify } = require('util');
+const { resolve } = require('path');
+
+const { User } = require('../../server/mongoose');
 
 const app = require('../../server');
 
@@ -12,35 +20,80 @@ chai.use(chaiHttp);
 const { expect } = chai;
 let server;
 
+const writeFile = promisify(fs.writeFile);
+const unlink = promisify(fs.unlink);
+const index = resolve(__dirname, '..', '..', 'dist', 'index.html');
+
 describe('Server testing', () => {
   logger.info = text => text;
   logger.error = text => text;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     server = yeps.createHttpServer(app);
+    await writeFile(index, 'test');
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     server.close();
+    await User.findOneAndRemove({ email: 'test@test.com' });
+    await unlink(index);
   });
 
   after(() => {
     redis.disconnect();
+    mongoose.connection.close();
   });
 
-  it('should test 404 error', async () => {
-    const spy = sinon.spy();
+  const email = 'test@test.com';
+  const password = 'password';
 
+  const registration = async (spy) => {
     await chai.request(server)
-      .get('/404')
-      .send()
-      .catch((error) => {
-        expect(error).to.have.status(404);
+      .post('/users')
+      .send({ email, password })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body._id).to.exist;
         spy();
       });
+  };
 
-    expect(spy.calledOnce).to.be.true;
-  });
+  const login = async (spy) => {
+    const token = await chai.request(server)
+      .post('/tokens')
+      .send({ email, password })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.token).to.exist;
+        spy();
+        return res.body.token;
+      });
+
+    return token;
+  };
+
+  const wrongToken = async (token, spy) => {
+    await chai.request(server)
+      .get('/users')
+      .set('token', token)
+      .send()
+      .catch((err) => {
+        expect(err).to.have.status(401);
+        spy();
+      });
+  };
+
+  const checkUser = async (id, token, spy) => {
+    await chai.request(server)
+      .get(`/users/${id}`)
+      .set('token', token)
+      .send()
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body._id).to.exist;
+        spy();
+      });
+  };
 
   it('should test static server', async () => {
     const spy = sinon.spy();
@@ -56,58 +109,369 @@ describe('Server testing', () => {
     expect(spy.calledOnce).to.be.true;
   });
 
-  it('should test get data', async () => {
+  it('should test main router', async () => {
     const spy = sinon.spy();
-
-    await redis.set('data', 'test');
+    const env = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
 
     await chai.request(server)
-      .get('/data')
+      .get('/')
       .send()
       .then((res) => {
         expect(res).to.have.status(200);
-        expect(res.body.data).to.be.equal('test');
         spy();
       });
 
+    process.env.NODE_ENV = env;
     expect(spy.calledOnce).to.be.true;
   });
 
-  it('should test set data', async () => {
+  it('should test main router with error', async () => {
     const spy = sinon.spy();
+    const env = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
 
-    const data = 'test';
+    unlink(index);
 
     await chai.request(server)
-      .post('/data')
-      .send({ data })
-      .then((res) => {
-        expect(res).to.have.status(200);
-        spy();
-      });
-
-    const storedData = JSON.parse(await redis.get('data'));
-
-    expect(storedData.data).to.be.equal(data);
-
-    expect(spy.calledOnce).to.be.true;
-  });
-
-  it('should test error', async () => {
-    await chai.request(server)
-      .post('/error')
+      .get('/')
       .send()
       .catch((err) => {
         expect(err).to.have.status(500);
+        spy();
       });
+
+    writeFile(index, 'test');
+
+    process.env.NODE_ENV = env;
+    expect(spy.calledOnce).to.be.true;
   });
 
-  it('should test error', async () => {
+  it('should test 404 error page', async () => {
+    const spy = sinon.spy();
+
     await chai.request(server)
-      .post('/404')
+      .get('/404')
       .send()
       .catch((err) => {
         expect(err).to.have.status(404);
+        spy();
       });
+
+    expect(spy.calledOnce).to.be.true;
+  });
+
+  it('should test registration', async () => {
+    const spy = sinon.spy();
+
+    await registration(spy);
+
+    expect(spy.calledOnce).to.be.true;
+  });
+
+  it('should test registration with empty email', async () => {
+    const spy = sinon.spy();
+
+    await chai.request(server)
+      .post('/users')
+      .send({ password })
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy();
+      });
+
+    expect(spy.calledOnce).to.be.true;
+  });
+
+  it('should test registration with wrong email', async () => {
+    const spy = sinon.spy();
+
+    await chai.request(server)
+      .post('/users')
+      .send({ password, email: 'test' })
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy();
+      });
+
+    expect(spy.calledOnce).to.be.true;
+  });
+
+  it('should test registration with empty password', async () => {
+    const spy = sinon.spy();
+
+    await chai.request(server)
+      .post('/users')
+      .send({ email })
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy();
+      });
+
+    expect(spy.calledOnce).to.be.true;
+  });
+
+  it('should test registration with wrong password', async () => {
+    const spy = sinon.spy();
+
+    await chai.request(server)
+      .post('/users')
+      .send({ email, password: '12' })
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy();
+      });
+
+    expect(spy.calledOnce).to.be.true;
+  });
+
+  it('should test registration with existing user', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+
+    await registration(spy1);
+
+    await chai.request(server)
+      .post('/users')
+      .send({ email, password })
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy2();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+  });
+
+  it('should test login', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+
+    await registration(spy1);
+
+    await chai.request(server)
+      .post('/tokens')
+      .send({ email, password })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.token).to.exist;
+        spy2();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+  });
+
+  it('should test login with wrong email', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+
+    await registration(spy1);
+
+    await chai.request(server)
+      .post('/tokens')
+      .send({ email: 'test123@test.com', password })
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy2();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+  });
+
+  it('should test login with wrong password', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+
+    await registration(spy1);
+
+    await chai.request(server)
+      .post('/tokens')
+      .send({ email, password: '1234567' })
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy2();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+  });
+
+  it('should test users list with empty token', async () => {
+    const spy = sinon.spy();
+
+    await chai.request(server)
+      .get('/users')
+      .send()
+      .catch((err) => {
+        expect(err).to.have.status(401);
+        spy();
+      });
+
+    expect(spy.calledOnce).to.be.true;
+  });
+
+  it('should test users list with wrong token in header', async () => {
+    const spy = sinon.spy();
+
+    await wrongToken('test', spy);
+
+    expect(spy.calledOnce).to.be.true;
+  });
+
+  it('should test users list with token', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+    const spy3 = sinon.spy();
+
+    await registration(spy1);
+
+    const token = await login(spy2);
+
+    await chai.request(server)
+      .get('/users')
+      .set('token', token)
+      .send()
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('array');
+        expect(res.body).to.not.empty;
+        spy3();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+    expect(spy3.calledOnce).to.be.true;
+  });
+
+  it('should test logout', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+    const spy3 = sinon.spy();
+    const spy4 = sinon.spy();
+
+    await registration(spy1);
+
+    const token = await login(spy2);
+
+    await chai.request(server)
+      .del(`/tokens/${token}`)
+      .set('token', token)
+      .send()
+      .then((res) => {
+        expect(res).to.have.status(200);
+        spy3();
+      });
+
+    await wrongToken(token, spy4);
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+    expect(spy3.calledOnce).to.be.true;
+    expect(spy4.calledOnce).to.be.true;
+  });
+
+  it('should test user', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+    const spy3 = sinon.spy();
+
+    await registration(spy1);
+
+    const token = await login(spy2);
+    const user = JSON.parse(await redis.get(token));
+
+    await checkUser(user._id, token, spy3);
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+    expect(spy3.calledOnce).to.be.true;
+  });
+
+  it('should test user update', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+    const spy3 = sinon.spy();
+    const spy4 = sinon.spy();
+
+    await registration(spy1);
+
+    const token = await login(spy2);
+    const user = JSON.parse(await redis.get(token));
+
+    await checkUser(user._id, token, spy3);
+
+    await chai.request(server)
+      .patch(`/users/${user._id}`)
+      .set('token', token)
+      .send({ password: '123456' })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body._id).to.exist;
+        spy4();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+    expect(spy3.calledOnce).to.be.true;
+    expect(spy4.calledOnce).to.be.true;
+  });
+
+  it('should test user update email', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+    const spy3 = sinon.spy();
+    const spy4 = sinon.spy();
+
+    await registration(spy1);
+
+    const token = await login(spy2);
+    const user = JSON.parse(await redis.get(token));
+
+    await checkUser(user._id, token, spy3);
+
+    await chai.request(server)
+      .patch(`/users/${user._id}`)
+      .set('token', token)
+      .send({ email: 'test@test.com' })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body._id).to.exist;
+        spy4();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+    expect(spy3.calledOnce).to.be.true;
+    expect(spy4.calledOnce).to.be.true;
+  });
+
+  it('should test user update with wrong id', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+    const spy3 = sinon.spy();
+    const spy4 = sinon.spy();
+
+    await registration(spy1);
+
+    const token = await login(spy2);
+    const user = JSON.parse(await redis.get(token));
+
+    await checkUser(user._id, token, spy3);
+
+    await chai.request(server)
+      .patch('/users/123')
+      .set('token', token)
+      .send()
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy4();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+    expect(spy3.calledOnce).to.be.true;
+    expect(spy4.calledOnce).to.be.true;
   });
 });

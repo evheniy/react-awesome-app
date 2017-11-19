@@ -2,5 +2,15 @@
   "redis": {
     "host": "127.0.0.1",
     "port": 6379
+  },
+  "mongoose": {
+    "uri": "mongodb://127.0.0.1:27017/users",
+    "parameters": {
+      "useMongoClient": true
+    }
+  },
+  "jwt": {
+    "secret": "yeps",
+    "ttl": "1000"
   }
 }
