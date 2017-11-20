@@ -97,6 +97,8 @@ describe('Server testing', () => {
 
   it('should test static server', async () => {
     const spy = sinon.spy();
+    const env = process.env.NODE_ENV;
+    delete process.env.NODE_ENV;
 
     await chai.request(server)
       .get('/index.html')
@@ -105,6 +107,8 @@ describe('Server testing', () => {
         expect(res).to.have.status(200);
         spy();
       });
+
+    process.env.NODE_ENV = env;
 
     expect(spy.calledOnce).to.be.true;
   });

@@ -39,7 +39,7 @@
     "node": ">=7.6.0"
   },
   "dependencies": {
-    "bcrypt-nodejs": "^0.0.3",
+    "bcryptjs": "^2.4.3",
     "config": "^1.28.1",
     "debug": "^3.1.0",
     "jsonwebtoken": "^8.1.0",

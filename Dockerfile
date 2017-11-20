@@ -25,5 +25,10 @@ ENV JWT_TTL 86400000
 ENV JWT_SECRET yeps
 
 # CMD [ "npm", "run", "nodemon" ]
+
+ENV DEBUG server:*
 CMD [ "npm", "t" ]
 # https://github.com/deviantony/docker-elk/blob/master/docker-compose.yml
+# npm run docker:build && npm run docker:run
+# docker logs yeps
+# npm run docker:stop
