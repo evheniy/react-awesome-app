@@ -1,5 +1,5 @@
 const debug = require('debug')('server:helpers:password');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const { promisify } = require('util');
 
 const genSalt = promisify(bcrypt.genSalt);

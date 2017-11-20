@@ -20,7 +20,7 @@ services:
       - databases
 
   mongo:
-    image: redis:alpine
+    image: mongo
     restart: always
     networks:
       - databases
@@ -34,12 +34,15 @@ services:
       - nodes
       - databases
     volumes:
-      - ".:/usr/src/app"
+      - "./server:/usr/src/app/server"
+      - "./dist:/usr/src/app/dist"
+      - "./logs:/var/logs"
     environment:
-      - LOGS_FILE_NAME=./logs/node1.error.log
+      - LOGS_FILE_NAME=/var/logs/node1.error.log
       - REDIS_HOST=redis
       - JWT_SECRET=react-awesome-app
       - JWT_TTL=86400000
+      - MONGO_URI=mongodb://mongo:27017/users
 
   node2:
     build: .
@@ -48,10 +51,15 @@ services:
       - nodes
       - databases
     volumes:
-      - ".:/usr/src/app"
+      - "./server:/usr/src/app/server"
+      - "./dist:/usr/src/app/dist"
+      - "./logs:/var/logs"
     environment:
-      - LOGS_FILE_NAME=./logs/node2.error.log
+      - LOGS_FILE_NAME=/var/logs/node2.error.log
       - REDIS_HOST=redis
+      - JWT_SECRET=react-awesome-app
+      - JWT_TTL=86400000
+      - MONGO_URI=mongodb://mongo:27017/users
 
   node3:
     build: .
@@ -60,10 +68,15 @@ services:
       - nodes
       - databases
     volumes:
-      - ".:/usr/src/app"
+      - "./server:/usr/src/app/server"
+      - "./dist:/usr/src/app/dist"
+      - "./logs:/var/logs"
     environment:
-      - LOGS_FILE_NAME=./logs/node3.error.log
+      - LOGS_FILE_NAME=/var/logs/node3.error.log
       - REDIS_HOST=redis
+      - JWT_SECRET=react-awesome-app
+      - JWT_TTL=86400000
+      - MONGO_URI=mongodb://mongo:27017/users
 
 networks:
   nodes:
