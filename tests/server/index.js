@@ -75,7 +75,7 @@ describe('Server testing', () => {
   const wrongToken = async (token, spy) => {
     await chai.request(server)
       .get('/users')
-      .set('token', token)
+      .set('x-access-token', token)
       .send()
       .catch((err) => {
         expect(err).to.have.status(401);
@@ -86,7 +86,7 @@ describe('Server testing', () => {
   const checkUser = async (id, token, spy) => {
     await chai.request(server)
       .get(`/users/${id}`)
-      .set('token', token)
+      .set('x-access-token', token)
       .send()
       .then((res) => {
         expect(res).to.have.status(200);
@@ -335,7 +335,7 @@ describe('Server testing', () => {
 
     await chai.request(server)
       .get('/users')
-      .set('token', token)
+      .set('x-access-token', token)
       .send()
       .then((res) => {
         expect(res).to.have.status(200);
@@ -361,7 +361,7 @@ describe('Server testing', () => {
 
     await chai.request(server)
       .del(`/tokens/${token}`)
-      .set('token', token)
+      .set('x-access-token', token)
       .send()
       .then((res) => {
         expect(res).to.have.status(200);
@@ -408,7 +408,7 @@ describe('Server testing', () => {
 
     await chai.request(server)
       .patch(`/users/${user._id}`)
-      .set('token', token)
+      .set('x-access-token', token)
       .send({ password: '123456' })
       .then((res) => {
         expect(res).to.have.status(200);
@@ -437,7 +437,7 @@ describe('Server testing', () => {
 
     await chai.request(server)
       .patch(`/users/${user._id}`)
-      .set('token', token)
+      .set('x-access-token', token)
       .send({ email: 'test@test.com' })
       .then((res) => {
         expect(res).to.have.status(200);
@@ -466,7 +466,7 @@ describe('Server testing', () => {
 
     await chai.request(server)
       .patch('/users/123')
-      .set('token', token)
+      .set('x-access-token', token)
       .send()
       .catch((err) => {
         expect(err).to.have.status(400);

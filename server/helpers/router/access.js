@@ -4,7 +4,7 @@ const { token: { get } } = require('../../redis');
 module.exports = handler => async (ctx) => {
   debug('Request access wrapper');
 
-  const token = ctx.req.headers.token || ctx.request.body.token;
+  const token = ctx.req.headers['x-access-token'] || ctx.request.body.token;
   debug('Url:', ctx.req.url);
   debug('Token:', token);
 

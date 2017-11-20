@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "nodemon": "nodemon --watch server ./bin/www",
+    "start": "nodemon --watch server ./bin/www",
+    "test": "npm-run-all test:**",
     "server:start": "pm2 start ./bin/www --name yeps --watch",
     "server:stop": "pm2 kill",
     "db:start": "npm-run-all --parallel db:start:*",
@@ -15,7 +16,6 @@
     "compose:up": "docker-compose up -d --build",
     "compose:down": "docker-compose down",
     "compose:clear": "docker-compose down --rmi all",
-    "test": "npm-run-all test:**",
     "clear": "npm-run-all clear:**",
     "lint": "npm-run-all lint:**",
     "lint:js": "eslint server tests",

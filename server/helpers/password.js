@@ -11,34 +11,22 @@ debug('Password helper created');
 const cryptPassword = async (password) => {
   debug('cryptPassword');
 
-  try {
-    const salt = await genSalt(10);
-    debug('salt:', salt);
+  const salt = await genSalt(10);
+  debug('salt:', salt);
 
-    const hash = await genHash(password, salt);
-    debug('hash:', hash);
+  const hash = await genHash(password, salt);
+  debug('hash:', hash);
 
-    return hash;
-  } catch (error) {
-    debug('Error:', error);
-
-    throw error;
-  }
+  return hash;
 };
 
 const comparePassword = async (plainPass, hashPass) => {
   debug('comparePassword');
 
-  try {
-    const isPasswordMatch = await compare(plainPass, hashPass);
-    debug('isPasswordMatch:', isPasswordMatch);
+  const isPasswordMatch = await compare(plainPass, hashPass);
+  debug('isPasswordMatch:', isPasswordMatch);
 
-    return isPasswordMatch;
-  } catch (error) {
-    debug('Error:', error);
-
-    throw error;
-  }
+  return isPasswordMatch;
 };
 
 module.exports = {
