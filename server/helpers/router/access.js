@@ -29,7 +29,7 @@ module.exports = handler => async (ctx) => {
   }
 
   debug('Saved token:', savedToken);
-  ctx.request.token = savedToken;
+  ctx.request.token = JSON.parse(savedToken);
 
   return handler(ctx);
 };

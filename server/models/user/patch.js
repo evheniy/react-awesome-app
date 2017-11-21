@@ -2,12 +2,17 @@ const debug = require('debug')('server:models:user:patch');
 const { User } = require('../../mongoose');
 const { password: { cryptPassword } } = require('../../helpers');
 
-module.exports = async (id, body) => {
+module.exports = async (id, body, token) => {
   debug('Update user');
   debug('id:', id);
   debug('Params:', body);
+  debug('Saved data:', token);
 
   try {
+    if (id !== token._id) {
+      throw new Error('You can update only own record!');
+    }
+
     const user = await User.findById(id);
     debug('User:', user);
 

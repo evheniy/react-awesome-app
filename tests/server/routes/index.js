@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle: "off" */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
@@ -11,9 +10,9 @@ const fs = require('fs');
 const { promisify } = require('util');
 const { resolve } = require('path');
 
-const { User } = require('../../server/mongoose');
+const { User } = require('../../../server/mongoose');
 
-const app = require('../../server');
+const app = require('../../../server');
 
 chai.use(chaiHttp);
 
@@ -22,7 +21,7 @@ let server;
 
 const writeFile = promisify(fs.writeFile);
 const unlink = promisify(fs.unlink);
-const index = resolve(__dirname, '..', '..', 'dist', 'index.html');
+const index = resolve(__dirname, '..', '..', '..', 'dist', 'index.html');
 
 describe('Server testing', () => {
   logger.info = text => text;
@@ -36,6 +35,7 @@ describe('Server testing', () => {
   afterEach(async () => {
     server.close();
     await User.findOneAndRemove({ email: 'test@test.com' });
+    await User.findOneAndRemove({ email: 'test1@test.com' });
     await unlink(index);
   });
 
@@ -477,5 +477,48 @@ describe('Server testing', () => {
     expect(spy2.calledOnce).to.be.true;
     expect(spy3.calledOnce).to.be.true;
     expect(spy4.calledOnce).to.be.true;
+  });
+
+  it('should test user updates other user', async () => {
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+    const spy3 = sinon.spy();
+    const spy4 = sinon.spy();
+    const spy5 = sinon.spy();
+
+    let user2;
+
+    await registration(spy1);
+
+    // create new user
+    await chai.request(server)
+      .post('/users')
+      .send({ email: 'test1@test.com', password })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body._id).to.exist;
+        user2 = res.body;
+        spy2();
+      });
+
+    const token = await login(spy3);
+    const user = JSON.parse(await redis.get(token));
+
+    await checkUser(user._id, token, spy4);
+
+    await chai.request(server)
+      .patch(`/users/${user2._id}`)
+      .set('x-access-token', token)
+      .send({ password: 'password2' })
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy5();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+    expect(spy3.calledOnce).to.be.true;
+    expect(spy4.calledOnce).to.be.true;
+    expect(spy5.calledOnce).to.be.true;
   });
 });
