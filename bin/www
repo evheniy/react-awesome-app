@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const app = require('../server');
 const server = require('yeps-server');
+const app = require('../server');
 
 server.createHttpServer(app);

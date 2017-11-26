@@ -9,7 +9,7 @@ const redis = require('yeps-redis');
 const bodyParser = require('yeps-bodyparser');
 const helmet = require('yeps-helmet');
 const cors = require('yeps-cors');
-require('yeps-mongoose');
+const mongoose = require('yeps-mongoose');
 
 const files = require('./files');
 
@@ -23,6 +23,6 @@ debug('App created');
 
 app
   .then(files())
-  .all([error({ isJSON }), logger()])
-  .all([redis(), bodyParser(), helmet(), cors()])
+  .all([logger(), error({ isJSON })])
+  .all([mongoose(), redis(), bodyParser(), helmet(), cors()])
   .then(router());

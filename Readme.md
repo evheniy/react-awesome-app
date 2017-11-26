@@ -48,9 +48,7 @@ Stop:
     
 ### Docker Compose
 
-Don't forget to stop db server.
-
-Run ([http://localhost/](http://localhost/)):
+Run ([https://localhost/](https://localhost/)):
 
     npm run compose:up
     

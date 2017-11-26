@@ -1,5 +1,5 @@
 const debug = require('debug')('server:mongoose:user');
-const mongoose = require('mongoose');
+const mongoose = require('yeps-mongoose/mongoose');
 
 const validator = require('../helpers').email;
 
