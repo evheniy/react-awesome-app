@@ -56,19 +56,5 @@ describe('Server testing', () => {
       });
 
     expect(s.calledOnce).to.be.true;
-
-    await request(server)
-      .get('/404')
-      .send()
-      .catch((err) => {
-        expect(err).to.have.status(404);
-      });
-
-    await request(server)
-      .get('/404')
-      .send()
-      .catch((err) => {
-        expect(err).to.have.status(404);
-      });
   });
 });
