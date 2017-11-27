@@ -1,8 +1,6 @@
 # React awesome app
 
-Full stack app example with redis, docker, node.js, YEPS, react, redux, rxjs with redux-observable.
-
-Quality tools: eslint, mocha, chai, sinon, enzyme.
+#### Full stack app example with react, docker and yeps.
 
 ## How to install
 
@@ -12,11 +10,11 @@ Quality tools: eslint, mocha, chai, sinon, enzyme.
     
 ## How to run databases with docker
 
-Start (redis:6379):
+#### Start:
     
     npm run db:start
     
-Stop:
+#### Stop:
 
     npm run db:stop
     
@@ -24,39 +22,39 @@ Stop:
 
 ### Node.js
 
-Start ([http://localhost:3000/](http://localhost:3000/)):
+#### Start ([http://localhost:3000/](http://localhost:3000/)):
 
     npm run server:start
     
-Stop:
+#### Stop:
 
     npm run server:stop
     
 ### Docker
 
-Build:
+#### Build:
 
     npm run docker:build
     
-Run ([http://localhost/](http://localhost/)):
+#### Run ([http://localhost/](http://localhost/)):
 
     npm run docker:run
 
-Stop:
+#### Stop:
 
     npm run docker:stop
     
 ### Docker Compose
 
-Run ([https://localhost/](https://localhost/)):
+#### Run ([https://localhost/](https://localhost/)):
 
     npm run compose:up
     
-Stop:
+#### Stop:
 
     npm run compose:down
 
-Clear:
+#### Clear:
 
     npm run compose:clear
     
@@ -75,3 +73,7 @@ Clear:
 ## How to test
 
     npm t
+    
+## Clear docker
+
+    npm run clear
