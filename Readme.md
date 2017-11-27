@@ -62,13 +62,14 @@ Clear:
     
 ### URLs to test
 
-| Method | Action     | URL                                              |
-|--------|------------|--------------------------------------------------|
-|  GET   | Index page | [http://localhost/](http://localhost/)           |
-|  GET   | Get data   | [http://localhost/data](http://localhost/data)   |
-|  POST  | Set data   | [http://localhost/data](http://localhost/data)   |
-|  GET   | 500 error  | [http://localhost/error](http://localhost/error) |
-|  GET   | 404 error  | [http://localhost/404](http://localhost/404)     |
+| Action       | Method | Path           | Request             | Response           |
+|--------------|--------|----------------|---------------------|--------------------|
+| Registration | POST   | /users         | { email, password } | { user, error }    |
+| Login        | POST   | /tokens        | { email, password } | { token, error }   |
+| User list    | GET    | /users         | { token }           | { users[], error } |
+| User profile | GET    | /users/:id     | { token }           | { user, error }    |
+| User editing | PATCH  | /users/:id     | { token, password } | { user, error }    |
+| Logout       | DELETE | /tokens/:token | { token }           | { empty, error }   |
 
 
 ## How to test
