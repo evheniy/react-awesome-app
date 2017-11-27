@@ -15,13 +15,25 @@ const { user } = require('../models');
 
 /**
  * @api {get} /users/:id Request User information
+ * @apiSampleRequest /users/:id
  * @apiName GetUser
  * @apiGroup User
+ * @apiVersion 1.0.0
+ *
+ * @apiHeader {String} x-access-token Users unique access-key.
+ * @apiHeaderExample {json} Header-Example:
+ *     {
+ *       "X-Access-Token": "111"
+ *     }
  *
  * @apiParam {Number} id Users unique ID.
+ * @apiParam {String} token Users unique access-key.
  *
  * @apiSuccess {String} email Firstname of the User.
  * @apiSuccess {String} password hash  Lastname of the User.
+ *
+ * @apiExample {curl} Example usage:
+ *     curl -i https://localhost/users/4711
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK

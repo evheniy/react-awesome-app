@@ -1,4 +1,4 @@
 instrumentation:
   default-excludes: true
-  excludes: []
+  excludes: ['**/dist/**', '**/coverage/**']
   include-all-sources: true

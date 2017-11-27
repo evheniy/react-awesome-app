@@ -6,8 +6,16 @@ module.exports = async (id) => {
   debug('User');
   debug('id:', id);
 
-  const user = await User.findById(id);
-  debug('User:', user);
+  try {
+    const user = await User.findById(id);
+    debug('User:', user);
 
-  return user;
+    return user;
+  } catch (err) {
+    debug('Error:', err);
+
+    const error = new Error();
+    error.code = 404;
+    return Promise.reject(error);
+  }
 };

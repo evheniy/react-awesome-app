@@ -8,6 +8,7 @@ const logger = require('yeps-logger');
 const redis = require('yeps-redis');
 const bodyParser = require('yeps-bodyparser');
 const helmet = require('yeps-helmet');
+const methodOverride = require('yeps-method-override');
 const cors = require('yeps-cors');
 const mongoose = require('yeps-mongoose');
 
@@ -24,5 +25,5 @@ debug('App created');
 app
   .then(files())
   .all([logger(), error({ isJSON })])
-  .all([mongoose(), redis(), bodyParser(), helmet(), cors()])
+  .all([mongoose(), redis(), bodyParser(), methodOverride(), helmet(), cors()])
   .then(router());

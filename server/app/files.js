@@ -3,7 +3,6 @@ const serve = require('yeps-static');
 const { resolve } = require('path');
 
 const root = resolve(__dirname, '..', '..', 'dist');
-const index = 'index.htm';
 
 debug('Files middleware created');
 debug('Path to files:', root);
@@ -18,5 +17,5 @@ module.exports = () => (ctx) => {
 
   debug('Static server');
 
-  return serve({ root, index })(ctx);
+  return serve({ root })(ctx);
 };

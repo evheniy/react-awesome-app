@@ -36,7 +36,11 @@
   },
   "apidoc": {
     "title": "apiDoc - React Awesome App",
-    "url" : "https://localhost/"
+    "url": "https://localhost/",
+    "template": {
+      "withCompare": true,
+      "withGenerator": true
+    }
   },
   "keywords": [],
   "author": "Evheniy Bystrov",
@@ -59,11 +63,12 @@
     "yeps-error": "^1.3.1",
     "yeps-helmet": "^1.0.1",
     "yeps-logger": "^1.0.2",
+    "yeps-method-override": "^1.0.2",
     "yeps-mongoose": "^1.0.3",
     "yeps-redis": "^1.0.1",
     "yeps-router": "^1.2.0",
     "yeps-server": "^1.1.2",
-    "yeps-static": "^1.3.0"
+    "yeps-static": "^1.3.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",

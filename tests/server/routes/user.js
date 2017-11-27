@@ -1,5 +1,6 @@
 const {
   expect,
+  request,
   spy,
   createServer,
   destroyServer,
@@ -33,6 +34,29 @@ describe('User info testing', () => {
     const user = JSON.parse(await redis.get(token));
 
     await checkUser(server, user._id, token, spy3);
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+    expect(spy3.calledOnce).to.be.true;
+  });
+
+  it('should test user', async () => {
+    const spy1 = spy();
+    const spy2 = spy();
+    const spy3 = spy();
+
+    await registration(server, spy1);
+
+    const token = await login(server, spy2);
+
+    await request(server)
+      .get('/users/test')
+      .set('x-access-token', token)
+      .send()
+      .catch((err) => {
+        expect(err).to.have.status(404);
+        spy3();
+      });
 
     expect(spy1.calledOnce).to.be.true;
     expect(spy2.calledOnce).to.be.true;
