@@ -26,8 +26,8 @@ const { user } = require('../models');
  *       "X-Access-Token": "111"
  *     }
  *
- * @apiParam {Number} id Users unique ID.
- * @apiParam {String} token Users unique access-key.
+ * @apiParam (Uri parameter) {String} id Users unique ID.
+ * @apiParam (Access parameter) {String} token Users unique access-key.
  *
  * @apiSuccess {String} email Firstname of the User.
  * @apiSuccess {String} password hash  Lastname of the User.
