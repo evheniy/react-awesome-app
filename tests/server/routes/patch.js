@@ -4,6 +4,7 @@ const {
   spy,
   createServer,
   destroyServer,
+  email,
   password,
   removeUser,
   registration,
@@ -30,6 +31,7 @@ describe('User update testing', () => {
     const spy2 = spy();
     const spy3 = spy();
     const spy4 = spy();
+    const spy5 = spy();
 
     await registration(server, spy1);
 
@@ -48,10 +50,59 @@ describe('User update testing', () => {
         spy4();
       });
 
+    await request(server)
+      .post('/tokens')
+      .send({ email, password: '123456' })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.token).to.exist;
+        spy5();
+      });
+
     expect(spy1.calledOnce).to.be.true;
     expect(spy2.calledOnce).to.be.true;
     expect(spy3.calledOnce).to.be.true;
     expect(spy4.calledOnce).to.be.true;
+    expect(spy5.calledOnce).to.be.true;
+  });
+
+  it('should test user update with old password', async () => {
+    const spy1 = spy();
+    const spy2 = spy();
+    const spy3 = spy();
+    const spy4 = spy();
+    const spy5 = spy();
+
+    await registration(server, spy1);
+
+    const token = await login(server, spy2);
+    const user = JSON.parse(await redis.get(token));
+
+    await checkUser(server, user._id, token, spy3);
+
+    await request(server)
+      .patch(`/users/${user._id}`)
+      .set('x-access-token', token)
+      .send({ password: '123456' })
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body._id).to.exist;
+        spy4();
+      });
+
+    await request(server)
+      .post('/tokens')
+      .send({ email, password })
+      .catch((err) => {
+        expect(err).to.have.status(400);
+        spy5();
+      });
+
+    expect(spy1.calledOnce).to.be.true;
+    expect(spy2.calledOnce).to.be.true;
+    expect(spy3.calledOnce).to.be.true;
+    expect(spy4.calledOnce).to.be.true;
+    expect(spy5.calledOnce).to.be.true;
   });
 
   it('should test user update email', async () => {
