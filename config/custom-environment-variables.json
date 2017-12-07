@@ -11,5 +11,18 @@
   },
   "mongoose": {
     "uri": "MONGO_URI"
+  },
+  "restify": {
+    "restApiServerUri": "REST_API_SERVER_URI"
+  },
+  "chaos": {
+    "enabled": "CHAOS_ENABLED",
+    "error": {
+      "probability": "CHAOS_ENABLED_ERROR_PROBABILITY"
+    },
+    "timeout": {
+      "probability": "CHAOS_ENABLED_TIMEOUT_PROBABILITY",
+      "time": "CHAOS_ENABLED_TIMEOUT_TIME"
+    }
   }
 }

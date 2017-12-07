@@ -12,5 +12,18 @@
   "jwt": {
     "secret": "yeps",
     "ttl": "86400000"
+  },
+  "restify": {
+    "restApiServerUri": "http://localhost:3000/"
+  },
+  "chaos": {
+    "enabled": true,
+    "error": {
+      "probability": 0.9
+    },
+    "timeout": {
+      "probability": 0.9,
+      "time": 30
+    }
   }
 }

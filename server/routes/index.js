@@ -1,5 +1,6 @@
 const debug = require('debug')('server:router:index');
 const Router = require('yeps-router');
+const restify = require('yeps-restify');
 
 const { router: { responseWrapper, accessWrapper } } = require('../helpers');
 
@@ -23,5 +24,7 @@ router.get('/users').then(responseWrapper(accessWrapper(users)));
 router.del('/tokens/:token').then(responseWrapper(accessWrapper(logout)));
 router.get('/users/:id').then(responseWrapper(accessWrapper(user)));
 router.patch('/users/:id').then(responseWrapper(accessWrapper(patch)));
+
+router.get('/restify').then(restify());
 
 module.exports = () => router.resolve();
