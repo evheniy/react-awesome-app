@@ -7,6 +7,7 @@ const chaiHttp = require('chai-http');
 const yeps = require('yeps-server');
 const logger = require('yeps-logger/logger');
 const redis = require('yeps-redis/redis');
+const config = require('config');
 
 const app = require('../../../server');
 
@@ -15,6 +16,8 @@ const { User } = require('../../../server/mongoose');
 chai.use(chaiHttp);
 
 const { expect, request } = chai;
+
+config.chaos.enabled = false;
 
 const writeFile = promisify(fs.writeFile);
 const unlink = promisify(fs.unlink);

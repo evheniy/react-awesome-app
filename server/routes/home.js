@@ -6,5 +6,5 @@ module.exports = async (ctx) => {
   debug('Route: home');
   debug('Model: home');
 
-  return home(ctx);
+  return ctx.response.resolve(home(ctx));
 };

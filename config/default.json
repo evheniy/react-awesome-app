@@ -19,11 +19,11 @@
   "chaos": {
     "enabled": true,
     "error": {
-      "probability": 0.9
+      "probability": 0.1
     },
     "timeout": {
-      "probability": 0.9,
-      "time": 30
+      "probability": 0.1,
+      "time": 10
     }
   }
 }

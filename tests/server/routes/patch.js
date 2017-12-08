@@ -32,6 +32,7 @@ describe('User update testing', () => {
     const spy3 = spy();
     const spy4 = spy();
     const spy5 = spy();
+    const spy6 = spy();
 
     await registration(server, spy1);
 
@@ -59,11 +60,23 @@ describe('User update testing', () => {
         spy5();
       });
 
+    await request(server)
+      .get(`/users/${user._id}`)
+      .set('x-access-token', token)
+      .send()
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body._id).to.exist;
+        expect(res.body.password).to.be.not.equal(user.password);
+        spy6();
+      });
+
     expect(spy1.calledOnce).to.be.true;
     expect(spy2.calledOnce).to.be.true;
     expect(spy3.calledOnce).to.be.true;
     expect(spy4.calledOnce).to.be.true;
     expect(spy5.calledOnce).to.be.true;
+    expect(spy6.calledOnce).to.be.true;
   });
 
   it('should test user update with old password', async () => {

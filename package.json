@@ -56,12 +56,12 @@
     "config": "^1.28.1",
     "debug": "^3.1.0",
     "jsonwebtoken": "^8.1.0",
-    "nodemon": "^1.12.1",
+    "nodemon": "^1.12.5",
     "npm-run-all": "^4.1.2",
     "pm2": "^2.8.0",
     "yeps": "^1.1.1",
     "yeps-bodyparser": "^1.1.1",
-    "yeps-chaos": "0.0.1",
+    "yeps-chaos": "^0.0.3",
     "yeps-cors": "^1.0.1",
     "yeps-error": "^1.3.1",
     "yeps-helmet": "^1.0.1",
@@ -69,15 +69,16 @@
     "yeps-method-override": "^1.0.2",
     "yeps-mongoose": "^1.0.3",
     "yeps-redis": "^1.0.1",
+    "yeps-response": "0.0.4",
     "yeps-restify": "0.0.2",
     "yeps-router": "^1.2.0",
     "yeps-server": "^1.1.2",
-    "yeps-static": "^1.4.0"
+    "yeps-static": "^1.4.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
-    "eslint": "^4.12.0",
+    "eslint": "^4.12.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
@@ -86,6 +87,6 @@
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^4.0.1",
     "nsp": "^3.1.0",
-    "sinon": "^4.1.2"
+    "sinon": "^4.1.3"
   }
 }

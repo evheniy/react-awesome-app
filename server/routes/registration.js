@@ -10,5 +10,5 @@ module.exports = async (ctx) => {
   debug('email:', email);
   debug('password:', password);
 
-  return user.register(email, password);
+  return ctx.response.resolve(user.register(email, password));
 };

@@ -15,6 +15,11 @@ module.exports = () => (ctx) => {
     return Promise.resolve(ctx);
   }
 
+  if (ctx.req.url === '/') {
+    debug('Skip home url');
+    return Promise.resolve(ctx);
+  }
+
   debug('Static server');
 
   return serve({ root })(ctx);

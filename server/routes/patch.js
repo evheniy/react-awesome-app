@@ -15,5 +15,5 @@ module.exports = async (ctx) => {
   const { token } = ctx.request;
   debug('token:', token);
 
-  return user.patch(id, body, token);
+  return ctx.response.resolve(user.patch(id, body, token));
 };

@@ -51,5 +51,6 @@ module.exports = async (ctx) => {
 
   const { id } = ctx.request.params;
   debug('User id:', id);
-  return user.user(id);
+
+  return ctx.response.resolve(user.user(id));
 };

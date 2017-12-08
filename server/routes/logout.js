@@ -9,5 +9,5 @@ module.exports = async (ctx) => {
   const { token } = ctx.request.params;
   debug('token:', token);
 
-  return user.logout(token);
+  return ctx.response.resolve(user.logout(token));
 };

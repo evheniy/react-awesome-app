@@ -12,6 +12,7 @@ const methodOverride = require('yeps-method-override');
 const cors = require('yeps-cors');
 const mongoose = require('yeps-mongoose');
 const chaos = require('yeps-chaos');
+const response = require('yeps-response');
 
 const files = require('./files');
 
@@ -24,8 +25,7 @@ const isJSON = true;
 debug('App created');
 
 app
-  .then(chaos())
   .then(files())
-  .all([logger(), error({ isJSON })])
-  .all([mongoose(), redis(), bodyParser(), methodOverride(), helmet(), cors()])
+  .all([logger(), error({ isJSON }), chaos()])
+  .all([mongoose(), redis(), response(), bodyParser(), methodOverride(), helmet(), cors()])
   .then(router());

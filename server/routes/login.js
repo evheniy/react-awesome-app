@@ -10,5 +10,5 @@ module.exports = async (ctx) => {
   debug('email:', email);
   debug('password:', password);
 
-  return user.login(email, password);
+  return ctx.response.resolve(user.login(email, password));
 };
