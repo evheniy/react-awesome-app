@@ -62,4 +62,22 @@ describe('Home page testing', () => {
 
     expect(s.calledOnce).to.be.true;
   });
+
+  it('should test redirection from "/index.html" to "/"', async () => {
+    const s = spy();
+
+    delete process.env.NODE_ENV;
+
+    await request(server)
+      .get('/index.html')
+      .redirects(0)
+      .send()
+      .catch((err) => {
+        expect(err).to.have.status(301);
+        expect(err.response.headers.location).to.be.equal('/');
+        s();
+      });
+
+    expect(s.calledOnce).to.be.true;
+  });
 });

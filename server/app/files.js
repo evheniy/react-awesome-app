@@ -1,6 +1,7 @@
 const debug = require('debug')('server:app:files');
 const serve = require('yeps-static');
 const { resolve } = require('path');
+const Response = require('yeps-response/response');
 
 const root = resolve(__dirname, '..', '..', 'dist');
 
@@ -13,6 +14,13 @@ module.exports = () => (ctx) => {
   if (process.env.NODE_ENV === 'production') {
     debug('Skip for production');
     return Promise.resolve(ctx);
+  }
+
+  if (ctx.req.url === '/index.html') {
+    debug('Redirecting from "/index.html" to "/"');
+    const response = new Response(ctx);
+
+    return response.redirect();
   }
 
   if (ctx.req.url === '/') {

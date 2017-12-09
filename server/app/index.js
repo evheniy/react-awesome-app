@@ -25,7 +25,8 @@ const isJSON = true;
 debug('App created');
 
 app
+  .then(chaos())
   .then(files())
-  .all([logger(), error({ isJSON }), chaos()])
+  .all([logger(), error({ isJSON })])
   .all([mongoose(), redis(), response(), bodyParser(), methodOverride(), helmet(), cors()])
   .then(router());
