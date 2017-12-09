@@ -2,47 +2,61 @@ const debug = require('debug')('server:router:user');
 const { user } = require('../models');
 
 /**
- * @apiDefine UserNotFoundError
+ * @apiDefine UnauthorizedError
  *
- * @apiError UserNotFound The id of the User was not found.
+ * @apiError UnauthorizedError The token of the User was not found.
  *
  * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
+ *     Error 401: Unauthorized
  *     {
- *       "error": "UserNotFound"
+ *       "message": "Unauthorized"
  *     }
  */
 
 /**
- * @api {get} /users/:id Request User information
+ * @apiDefine NotFoundError
+ *
+ * @apiError NotFoundError The id of the User was not found.
+ *
+ * @apiErrorExample Error-Response:
+ *     Error 404: Not Found
+ *     {
+ *       "message": "Not Found"
+ *     }
+ */
+
+/**
+ * @api {get} users/:id Request User data
  * @apiSampleRequest /users/:id
  * @apiName GetUser
  * @apiGroup User
  * @apiVersion 1.0.0
  *
- * @apiHeader {String} x-access-token Users unique access-key.
+ * @apiHeader {String} X-Access-Token Users unique access-key.
  * @apiHeaderExample {json} Header-Example:
  *     {
- *       "X-Access-Token": "111"
+ *       "X-Access-Token": "TOKEN"
  *     }
  *
- * @apiParam (Uri parameter) {String} id Users unique ID.
- * @apiParam (Access parameter) {String} token Users unique access-key.
- *
- * @apiSuccess {String} email Firstname of the User.
- * @apiSuccess {String} password hash  Lastname of the User.
- *
  * @apiExample {curl} Example usage:
- *     curl -i https://localhost/users/4711
+ *     curl -H "X-Access-Token:TOKEN" http://localhost:3000/users/ID
+ *
+ * @apiSuccess {String} __v User record version.
+ * @apiSuccess {String} id User ID.
+ * @apiSuccess {String} email User email.
+ * @apiSuccess {String} password  User password hash.
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *     {
+ *       "__v": 0,
  *       "email": "test@test.com",
- *       "password": "password"
+ *       "password": "$2a$10$rJ63Jj/O/Oy2DYJVlzrYJ.8L0X2BxKhDzABgWl7zmKXO8J7ZOGH4K",
+ *       "_id": "5a2ba6827a8c3b1a09564aa7"
  *     }
  *
- * @apiUse UserNotFoundError
+ * @apiUse UnauthorizedError
+ * @apiUse NotFoundError
  */
 module.exports = async (ctx) => {
   debug('URL: /users/:id');
