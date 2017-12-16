@@ -50,20 +50,25 @@
   "engines": {
     "node": ">=8.9.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evheniy/react-awesome-app.git"
+  },
   "dependencies": {
     "apidoc": "^0.17.6",
     "bcryptjs": "^2.4.3",
     "config": "^1.28.1",
     "debug": "^3.1.0",
     "jsonwebtoken": "^8.1.0",
-    "nodemon": "^1.12.5",
+    "nodemon": "^1.13.3",
     "npm-run-all": "^4.1.2",
-    "pm2": "^2.8.0",
+    "pm2": "^2.9.1",
     "yeps": "^1.1.1",
     "yeps-bodyparser": "^1.1.1",
     "yeps-chaos": "^0.1.0",
     "yeps-cors": "^1.0.1",
     "yeps-error": "^1.3.1",
+    "yeps-graphql": "^0.1.0",
     "yeps-helmet": "^1.0.1",
     "yeps-logger": "^1.0.2",
     "yeps-method-override": "^1.0.2",
@@ -78,10 +83,10 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
-    "eslint": "^4.13.0",
+    "eslint": "^4.13.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.5.1",
     "husky": "^0.14.3",
     "istanbul": "^1.1.0-alpha.1",
