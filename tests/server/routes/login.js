@@ -13,14 +13,16 @@ const {
 let server;
 
 describe('Login testing', () => {
+  const wrongEmail = 'test123111333555777@test.com';
+
   beforeEach(async () => {
     server = await createServer();
+    await removeUser({ email: wrongEmail }).catch(e => e);
   });
 
   afterEach(async () => {
     await destroyServer(server);
     await removeUser();
-    await removeUser({ email: 'test123111333555777@test.com' }).catch(e => e);
   });
 
   it('should test login', async () => {
@@ -50,7 +52,7 @@ describe('Login testing', () => {
 
     await request(server)
       .post('/tokens')
-      .send({ email: 'test123111333555777@test.com', password })
+      .send({ email: wrongEmail, password })
       .catch((err) => {
         expect(err).to.have.status(400);
         spy2();
