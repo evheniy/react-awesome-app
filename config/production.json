@@ -11,5 +11,11 @@
     "showLevel": true,
     "maxsize": 10000000,
     "maxFiles": 5
+  },
+  "chaos": {
+    "enabled": false
+  },
+  "graphql": {
+    "graphiql": false
   }
 }

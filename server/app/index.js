@@ -16,6 +16,7 @@ const response = require('yeps-response');
 
 const files = require('./files');
 
+const graphql = require('../graphql');
 const router = require('../routes');
 
 const app = module.exports = new App();
@@ -28,5 +29,7 @@ app
   .then(chaos())
   .then(files())
   .all([logger(), error({ isJSON })])
-  .all([mongoose(), redis(), response(), bodyParser(), methodOverride(), helmet(), cors()])
+  .all([mongoose(), redis()])
+  .then(graphql())
+  .all([response(), bodyParser(), methodOverride(), helmet(), cors()])
   .then(router());

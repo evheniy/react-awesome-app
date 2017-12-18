@@ -24,5 +24,9 @@
       "probability": "CHAOS_ENABLED_TIMEOUT_PROBABILITY",
       "time": "CHAOS_ENABLED_TIMEOUT_TIME"
     }
+  },
+  "graphql": {
+    "graphiql": "GRAPHQL_GRAPHIQL",
+    "url": "GRAPHQL_URL"
   }
 }

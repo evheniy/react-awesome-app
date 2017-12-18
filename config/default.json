@@ -25,5 +25,9 @@
       "probability": 0.1,
       "time": 10
     }
+  },
+  "graphql": {
+    "graphiql": true,
+    "url": "/graphql"
   }
 }
