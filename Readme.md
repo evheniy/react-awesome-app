@@ -2,21 +2,20 @@
 
 #### Full stack app example with react, docker and yeps.
 
-[![npm version](https://badge.fury.io/js/react-awesome-app.svg)](https://badge.fury.io/js/react-awesome-app)
 [![Build Status](https://travis-ci.org/evheniy/react-awesome-app.svg?branch=master)](https://travis-ci.org/evheniy/react-awesome-app)
 [![Coverage Status](https://coveralls.io/repos/github/evheniy/react-awesome-app/badge.svg?branch=master)](https://coveralls.io/github/evheniy/react-awesome-app?branch=master)
 [![Linux Build](https://img.shields.io/travis/evheniy/react-awesome-app/master.svg?label=linux)](https://travis-ci.org/evheniy/)
 
+[![NSP Status](https://img.shields.io/badge/NSP%20status-no%20vulnerabilities-green.svg)](https://travis-ci.org/evheniy/react-awesome-app)
+
 [![Dependency Status](https://david-dm.org/evheniy/react-awesome-app.svg)](https://david-dm.org/evheniy/react-awesome-app)
 [![devDependency Status](https://david-dm.org/evheniy/react-awesome-app/dev-status.svg)](https://david-dm.org/evheniy/react-awesome-app#info=devDependencies)
-[![NSP Status](https://img.shields.io/badge/NSP%20status-no%20vulnerabilities-green.svg)](https://travis-ci.org/evheniy/react-awesome-app)
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/evheniy/react-awesome-app/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/evheniy/react-awesome-app.svg)](https://github.com/evheniy/react-awesome-app/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/evheniy/react-awesome-app.svg)](https://github.com/evheniy/react-awesome-app/network)
 [![GitHub issues](https://img.shields.io/github/issues/evheniy/react-awesome-app.svg)](https://github.com/evheniy/react-awesome-app/issues)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/evheniy/react-awesome-app.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
-
 
 ## How to install
 
