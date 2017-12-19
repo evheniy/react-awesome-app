@@ -4,6 +4,10 @@ node_js:
   - "8"
 services:
   - docker
+before_install:
+  - npm run db:start
+after_script:
+  - npm run db:stop
 script:
   - npm run test
   - npm run report
