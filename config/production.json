@@ -16,6 +16,6 @@
     "enabled": false
   },
   "graphql": {
-    "graphiql": false
+    "graphiql": true
   }
 }

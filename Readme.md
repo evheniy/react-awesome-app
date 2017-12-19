@@ -84,6 +84,9 @@
 | User editing | PATCH  | /users/:id     | { token, password } | { user, error }    |
 | Logout       | DELETE | /tokens/:token | { token }           | { empty, error }   |
 
+### GraphQL
+
+#### URL: [/graphql](https://localhost/graphql)
 
 ## How to test
 
