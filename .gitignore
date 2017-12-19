@@ -1,6 +1,7 @@
 node_modules
 .idea
-dist
+dist/*
+!dist/.gitkeep
 coverage
 logs/*.log
 mongo/data
