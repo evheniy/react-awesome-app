@@ -4,7 +4,9 @@ node_js:
   - "9"
 services:
   - docker
-before_install:
+install:
+  - npm i
+before_script:
   - npm run db:start
 after_script:
   - npm run db:stop
