@@ -7,9 +7,11 @@ services:
 install:
   - npm i
 before_script:
-  - npm run db:start
+  - docker run -d --name redis -p 6379:6379 redis:alpine
+  - docker run -d --name mongo -p 27017:27017 mongo
 after_script:
-  - npm run db:stop
+  - docker rm -f redis
+  - docker rm -f mongo
 script:
   - npm run test
   - npm run report
