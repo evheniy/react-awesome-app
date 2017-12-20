@@ -2,8 +2,9 @@ instrumentation:
   default-excludes: true
   excludes: ['**/dist/**', '**/coverage/**']
   include-all-sources: true
-  lines: 100
-  statements: 100
-  functions: 100
-  branches: 100
-  check-coverage: true
+check:
+  global:
+    statements: 80
+    lines: 80
+    branches: 80
+    functions: 80

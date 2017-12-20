@@ -1,8 +1,13 @@
 const debug = require('debug')('server:graphql:schema:query:index');
-const { GraphQLNonNull, GraphQLObjectType, GraphQLID } = require('yeps-graphql/graphql');
+const {
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLString,
+} = require('yeps-graphql/graphql');
 
-const UserType = require('./user');
-const UsersType = require('./users');
+const UserType = require('../types/user');
+const UsersType = require('../types/users');
 
 const { user } = require('../../../models');
 
@@ -10,14 +15,19 @@ debug('QueryType created');
 
 const QueryType = new GraphQLObjectType({
   name: 'QueryType',
-  description: 'QueryType',
+  description: 'Query type',
   fields: {
     users: {
       type: UsersType,
-      resolve() {
+      args: {
+        token: {
+          type: new GraphQLNonNull(GraphQLString),
+        },
+      },
+      async resolve(parent, { token }) {
         debug('User list');
-
-        const list = user.list();
+        await token;
+        const list = await user.list();
         debug(list);
 
         return list;
@@ -29,11 +39,14 @@ const QueryType = new GraphQLObjectType({
         id: {
           type: new GraphQLNonNull(GraphQLID),
         },
+        token: {
+          type: new GraphQLNonNull(GraphQLString),
+        },
       },
-      resolve(parent, { id }) {
+      async resolve(parent, { id, token }) {
         debug('User info');
-
-        const userInfo = user.user(id);
+        await token;
+        const userInfo = await user.user(id);
         debug(userInfo);
 
         return userInfo;

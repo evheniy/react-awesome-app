@@ -1,5 +1,9 @@
 const debug = require('debug')('server:graphql:schema:query:user');
-const { GraphQLObjectType, GraphQLString } = require('yeps-graphql/graphql');
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLNonNull,
+} = require('yeps-graphql/graphql');
 
 debug('UserType created');
 
@@ -8,10 +12,10 @@ const UserType = new GraphQLObjectType({
   description: 'User type',
   fields: {
     id: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
     email: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
   },
 });

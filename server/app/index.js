@@ -29,7 +29,7 @@ app
   .then(chaos())
   .then(files())
   .all([logger(), error({ isJSON })])
-  .all([mongoose(), redis()])
+  .all([mongoose(), redis(), helmet(), cors()])
   .then(graphql())
-  .all([response(), bodyParser(), methodOverride(), helmet(), cors()])
+  .all([response(), bodyParser(), methodOverride()])
   .then(router());

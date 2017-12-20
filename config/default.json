@@ -17,7 +17,7 @@
     "restApiServerUri": "http://localhost:3000/"
   },
   "chaos": {
-    "enabled": true,
+    "enabled": false,
     "error": {
       "probability": 0.1
     },
